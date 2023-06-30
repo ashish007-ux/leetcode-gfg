@@ -1,14 +1,14 @@
 class Solution {
 public:
     int ans=0;
-    void dfs(int node,unordered_map<int,list<pair<int,bool>>>&adj,vector<bool>&vis,int parent){
+    void dfs(int node,unordered_map<int,list<pair<int,bool>>>&adj,vector<bool>&vis){
         vis[node]=true;
         for(auto it:adj[node]){
             if(!vis[it.first]){
                 if(it.second){
                     ans++;
                 }
-                dfs(it.first,adj,vis,node);
+                dfs(it.first,adj,vis);
             }
         }
     }
@@ -23,7 +23,7 @@ public:
      vector<bool>vis(n,false);
         for(int i=0;i<n;i++){
             if(!vis[i]){
-                dfs(i,adj,vis,-1);
+                dfs(i,adj,vis);
             }
         }
         return ans;
