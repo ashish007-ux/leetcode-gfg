@@ -96,37 +96,42 @@ class Solution
 {
     public:
     
-    pair<int,bool>solve(Node*root){
+    pair<bool,int>solve(Node*root){
+        
         if(root==NULL){
-            pair<int,bool>p=make_pair(0,true);
-            return p;
+            return {true,0};
         }
         
         if(root->left==NULL&&root->right==NULL){
-            pair<int,bool>p=make_pair(root->data,true);
-            return p;
+            return {true,root->data};
         }
         
-        pair<int,bool>l=solve(root->left);
-        pair<int,bool>r=solve(root->right);
-        bool val=root->data==(l.first+r.first);
-        pair<int,bool>ans;
-        ans.first=root->data+l.first+r.first;
-        if(val&&l.second&&r.second){
-            ans.second=true;
-            
+        pair<bool,int>l=solve(root->left);
+        pair<bool,int>r=solve(root->right);
+        
+        bool a=l.first;
+        bool b=r.first;
+        bool c=l.second+r.second==root->data;
+        
+        pair<bool,int>ans;
+        ans.second=c;
+        if(a&&b&&c){
+            ans.first=true;
+            ans.second=l.second+r.second+root->data;
         }else{
-            ans.second=false;
+            ans.first=false;
+            ans.second=l.second+r.second+root->data;
         }
-        
         return ans;
+        
     }
+    
     
     
     bool isSumTree(Node* root)
     {
-         pair<int,bool>ans=solve(root);
-         return ans.second;
+      pair<bool,int>a= solve(root);
+      return a.first;
     }
 };
 
