@@ -6,38 +6,40 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
-        vector<int>dp(n+1,1);
-        vector<int>hash(n+1);
-        for(int i=0;i<n;i++){
-            hash[i]=i;
-            for(int j=0;j<i;j++){
-                if(arr[i]>arr[j]&&1+dp[j]>dp[i]){
-                    dp[i]=1+dp[j];
-                    hash[i]=j;
+    vector<int> longestIncreasingSubsequence(int n, vector<int>& nums) {
+        
+   
+  // Write your code here
+        // int n=nums.size(); 
+        int maxi=1;
+		int last=0;  
+		vector<int>hash(n);
+        vector<int>dp(n, 1);
+        for(int i=0; i<n; i++){
+			hash[i]=i;
+            for(int prev=0; prev<i; prev++){
+                if(nums[i]>nums[prev] && 1+dp[prev]>dp[i]){
+                    dp[i]=1+dp[prev];
+					hash[i]=prev;
+					
                 }
             }
-        }
-        
-        int maxind=-1;
-        int maxi=-1e9;
-        for(int i=0;i<n;i++){
             if(dp[i]>maxi){
-                maxind=i;
-                maxi=dp[i];
-            }
+				maxi=dp[i]; 
+				last=i; 
+			}
+			
         }
+		vector<int>temp;
+		temp.push_back(nums[last]);
+		while(hash[last]!=last){
+			last=hash[last]; 
+			temp.push_back(nums[last]);
+		}
+		reverse(temp.begin(), temp.end());
+		return temp;
         
-        vector<int>ans;
-        ans.push_back(arr[maxind]);
-        while(hash[maxind]!=maxind){
-            maxind=hash[maxind];
-            ans.push_back(arr[maxind]);
-            
-        }
-        
-        reverse(ans.begin(),ans.end());
-        return ans;
+
     }
 };
 
